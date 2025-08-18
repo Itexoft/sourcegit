@@ -758,6 +758,8 @@
   <x:String x:Key="Text.ForceSquash.AutoStash" xml:space="preserve">Auto-stash local changes</x:String>
   <x:String x:Key="Text.ForceSquash.KeepAuthorDate" xml:space="preserve">Keep original author/date of target commit</x:String>
   <x:String x:Key="Text.ForceSquash.AppendMessages" xml:space="preserve">Append messages of squashed commits to body</x:String>
+  <x:String x:Key="Text.ForceSquash.StashPopFailed" xml:space="preserve">Failed to apply auto stash.</x:String>
+  <x:String x:Key="Text.ForceSquash.ShowFullDiff" xml:space="preserve">Show full diff</x:String>
   <x:String x:Key="Text.ForceSquash.Success" xml:space="preserve">History flattened. Backup branch: {0}</x:String>
   <x:String x:Key="Text.ForceSquash.SuccessNoBackup" xml:space="preserve">History flattened.</x:String>
   <x:String x:Key="Text.SSHKey" xml:space="preserve">SSH Private Key:</x:String>

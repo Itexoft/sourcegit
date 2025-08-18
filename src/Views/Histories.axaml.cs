@@ -709,7 +709,7 @@ namespace SourceGit.Views
                     }
                 }
 
-                if (Preferences.Instance.EnableDangerousHistoryRewrites && commit.Parents.Count > 0)
+                if (ViewModels.Preferences.Instance.EnableDangerousHistoryRewrites && commit.Parents.Count > 0)
                 {
                     if (new Commands.IsAncestor(repo.FullPath, commit.SHA, "HEAD").Test())
                     {

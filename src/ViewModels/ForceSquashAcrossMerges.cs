@@ -14,6 +14,7 @@ namespace SourceGit.ViewModels
         public string Message { get => _message; set => SetProperty(ref _message, value, true); }
         public List<Models.Commit> PreviewCommits { get => _previewCommits; set => SetProperty(ref _previewCommits, value); }
         public string DiffStat { get => _diffStat; set => SetProperty(ref _diffStat, value); }
+        public string FullDiff { get => _fullDiff; set => SetProperty(ref _fullDiff, value); }
 
         public ForceSquashAcrossMerges(Repository repo, Models.Commit target)
         {
@@ -44,7 +45,7 @@ namespace SourceGit.ViewModels
                 {
                     if (c.Index != Models.ChangeState.None || c.WorkTree != Models.ChangeState.None)
                     {
-                        stashName = $"sourcegit/force-squash/{headShort}";
+                        stashName = $"sourcegit/force-squash/{headShort}-{Guid.NewGuid().ToString("N")[..6]}";
                         succ = await new Commands.Stash(_repo.FullPath).Use(log).PushAsync(stashName);
                         break;
                     }
@@ -72,7 +73,10 @@ namespace SourceGit.ViewModels
 
             List<Models.Commit> append = null;
             if (AppendMessages)
+            {
                 append = await new Commands.QueryCommits(_repo.FullPath, $"{Target.SHA}..{head}", false).GetResultAsync();
+                append.Sort((l, r) => l.CommitterTime.CompareTo(r.CommitterTime));
+            }
 
             succ = await new Commands.Reset(_repo.FullPath, baseSHA, "--soft").Use(log).ExecAsync();
             if (!succ)
@@ -87,8 +91,15 @@ namespace SourceGit.ViewModels
             {
                 var lines = new List<string>();
                 foreach (var c in append)
-                    lines.Add(c.Subject);
-                commitMsg += "\n\n" + string.Join("\n", lines);
+                {
+                    var msg = c.Subject.Trim();
+                    if (msg.Length == 0)
+                        continue;
+                    if (!lines.Contains(msg))
+                        lines.Add(msg);
+                }
+                if (lines.Count > 0)
+                    commitMsg += "\n\n" + string.Join("\n", lines);
             }
 
             var commit = new Commands.Commit(_repo.FullPath, commitMsg, signOff, false, false);
@@ -112,6 +123,7 @@ namespace SourceGit.ViewModels
                 succ = await new Commands.Stash(_repo.FullPath).Use(log).PopAsync(stashName);
                 if (!succ)
                 {
+                    App.SendNotification(_repo.FullPath, App.Text("ForceSquash.StashPopFailed"));
                     log.Complete();
                     _repo.SetWatcherEnabled(true);
                     return false;
@@ -125,6 +137,7 @@ namespace SourceGit.ViewModels
                 App.SendNotification(_repo.FullPath, App.Text("ForceSquash.Success", backupName));
             else
                 App.SendNotification(_repo.FullPath, App.Text("ForceSquash.SuccessNoBackup"));
+            _repo.ShowPopup(new Push(_repo, _repo.CurrentBranch) { ForcePush = true });
             return true;
         }
 
@@ -132,6 +145,8 @@ namespace SourceGit.ViewModels
         private string _message;
         private List<Models.Commit> _previewCommits = new();
         private string _diffStat = string.Empty;
+        private string _fullDiff = string.Empty;
+        private bool _fullDiffLoaded = false;
 
         private async Task LoadPreview()
         {
@@ -139,6 +154,16 @@ namespace SourceGit.ViewModels
             var baseSHA = Target.Parents[0];
             PreviewCommits = await new Commands.QueryCommits(_repo.FullPath, $"{Target.SHA}..{head}", false).GetResultAsync();
             DiffStat = await new Commands.DiffStat(_repo.FullPath, $"{baseSHA}..{head}").GetResultAsync();
+        }
+
+        public async Task LoadFullDiff()
+        {
+            if (_fullDiffLoaded)
+                return;
+            var head = await new Commands.QueryRevisionByRefName(_repo.FullPath, "HEAD").GetResultAsync();
+            var baseSHA = Target.Parents[0];
+            FullDiff = await new Commands.DiffAll(_repo.FullPath, $"{baseSHA}..{head}").GetResultAsync();
+            _fullDiffLoaded = true;
         }
     }
 }
