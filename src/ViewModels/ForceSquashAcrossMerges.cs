@@ -12,12 +12,15 @@ namespace SourceGit.ViewModels
         public bool KeepAuthorDate { get; set; }
         public bool AppendMessages { get; set; }
         public string Message { get => _message; set => SetProperty(ref _message, value, true); }
+        public List<Models.Commit> PreviewCommits { get => _previewCommits; set => SetProperty(ref _previewCommits, value); }
+        public string DiffStat { get => _diffStat; set => SetProperty(ref _diffStat, value); }
 
         public ForceSquashAcrossMerges(Repository repo, Models.Commit target)
         {
             _repo = repo;
             Target = target;
             _message = target.Subject;
+            Task.Run(LoadPreview);
         }
 
         public override async Task<bool> Sure()
@@ -31,15 +34,17 @@ namespace SourceGit.ViewModels
             var signOff = _repo.Settings.EnableSignOffForCommit;
             var stashName = string.Empty;
             var succ = true;
+            var head = await new Commands.QueryRevisionByRefName(_repo.FullPath, "HEAD").GetResultAsync();
+            var headShort = head[..7];
 
             if (AutoStash)
             {
                 var changes = await new Commands.QueryLocalChanges(_repo.FullPath, false).GetResultAsync();
                 foreach (var c in changes)
                 {
-                    if (c.Index != Models.ChangeState.None)
+                    if (c.Index != Models.ChangeState.None || c.WorkTree != Models.ChangeState.None)
                     {
-                        stashName = $"sourcegit/force-squash/{_repo.CurrentBranch.Head[..7]}";
+                        stashName = $"sourcegit/force-squash/{headShort}";
                         succ = await new Commands.Stash(_repo.FullPath).Use(log).PushAsync(stashName);
                         break;
                     }
@@ -65,6 +70,10 @@ namespace SourceGit.ViewModels
                 }
             }
 
+            List<Models.Commit> append = null;
+            if (AppendMessages)
+                append = await new Commands.QueryCommits(_repo.FullPath, $"{Target.SHA}..{head}", false).GetResultAsync();
+
             succ = await new Commands.Reset(_repo.FullPath, baseSHA, "--soft").Use(log).ExecAsync();
             if (!succ)
             {
@@ -74,16 +83,12 @@ namespace SourceGit.ViewModels
             }
 
             var commitMsg = Message;
-            if (AppendMessages)
+            if (AppendMessages && append.Count > 0)
             {
-                var commits = await new Commands.QueryCommits(_repo.FullPath, $"{Target.SHA}..HEAD", false).GetResultAsync();
-                if (commits.Count > 0)
-                {
-                    var lines = new List<string>();
-                    foreach (var c in commits)
-                        lines.Add(c.Subject);
-                    commitMsg += "\n\n" + string.Join("\n", lines);
-                }
+                var lines = new List<string>();
+                foreach (var c in append)
+                    lines.Add(c.Subject);
+                commitMsg += "\n\n" + string.Join("\n", lines);
             }
 
             var commit = new Commands.Commit(_repo.FullPath, commitMsg, signOff, false, false);
@@ -92,6 +97,7 @@ namespace SourceGit.ViewModels
                 var author = Target.Author;
                 var date = DateTimeOffset.FromUnixTimeSeconds((long)Target.AuthorTime).ToString("o");
                 commit.Args += $" --author={("" + author.Name + " <" + author.Email + ">").Quoted()} --date={date.Quoted()}";
+                commit.Envs["GIT_COMMITTER_DATE"] = date;
             }
             succ = await commit.Use(log).RunAsync();
             if (!succ)
@@ -102,7 +108,15 @@ namespace SourceGit.ViewModels
             }
 
             if (!string.IsNullOrEmpty(stashName))
-                await new Commands.Stash(_repo.FullPath).Use(log).PopAsync(stashName);
+            {
+                succ = await new Commands.Stash(_repo.FullPath).Use(log).PopAsync(stashName);
+                if (!succ)
+                {
+                    log.Complete();
+                    _repo.SetWatcherEnabled(true);
+                    return false;
+                }
+            }
 
             log.Complete();
             _repo.SetWatcherEnabled(true);
@@ -110,11 +124,21 @@ namespace SourceGit.ViewModels
             if (!string.IsNullOrEmpty(backupName))
                 App.SendNotification(_repo.FullPath, App.Text("ForceSquash.Success", backupName));
             else
-                App.SendNotification(_repo.FullPath, App.Text("ForceSquash.Success", string.Empty));
+                App.SendNotification(_repo.FullPath, App.Text("ForceSquash.SuccessNoBackup"));
             return true;
         }
 
         private readonly Repository _repo;
         private string _message;
+        private List<Models.Commit> _previewCommits = new();
+        private string _diffStat = string.Empty;
+
+        private async Task LoadPreview()
+        {
+            var head = await new Commands.QueryRevisionByRefName(_repo.FullPath, "HEAD").GetResultAsync();
+            var baseSHA = Target.Parents[0];
+            PreviewCommits = await new Commands.QueryCommits(_repo.FullPath, $"{Target.SHA}..{head}", false).GetResultAsync();
+            DiffStat = await new Commands.DiffStat(_repo.FullPath, $"{baseSHA}..{head}").GetResultAsync();
+        }
     }
 }

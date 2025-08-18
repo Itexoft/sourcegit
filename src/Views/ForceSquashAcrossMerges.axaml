@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:SourceGit.ViewModels"
              xmlns:v="using:SourceGit.Views"
+             xmlns:m="using:SourceGit.Models"
+             xmlns:c="using:SourceGit.Converters"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SourceGit.Views.ForceSquashAcrossMerges"
              x:DataType="vm:ForceSquashAcrossMerges">
@@ -24,6 +26,17 @@
       <CheckBox Content="{DynamicResource Text.ForceSquash.KeepAuthorDate}" IsChecked="{Binding KeepAuthorDate, Mode=TwoWay}"/>
       <CheckBox Content="{DynamicResource Text.ForceSquash.AppendMessages}" IsChecked="{Binding AppendMessages, Mode=TwoWay}"/>
     </StackPanel>
+    <ListBox Height="120" Margin="0,18,0,0" ItemsSource="{Binding PreviewCommits}">
+      <ListBox.ItemTemplate>
+        <DataTemplate x:DataType="m:Commit">
+          <StackPanel Orientation="Horizontal">
+            <TextBlock Text="🔀" IsVisible="{Binding Parents.Count, Converter={x:Static c:IntConverters.IsNotOne}}"/>
+            <TextBlock Margin="4,0,0,0" Text="{Binding Subject}"/>
+          </StackPanel>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+    <TextBlock Margin="0,6,0,0" Text="{Binding DiffStat}" FontFamily="{DynamicResource Fonts.Monospace}"/>
     <v:CommitMessageTextBox Height="120" Margin="0,18,0,0" Text="{Binding Message, Mode=TwoWay}"/>
   </StackPanel>
 </UserControl>
