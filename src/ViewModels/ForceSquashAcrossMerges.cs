@@ -14,7 +14,6 @@ namespace SourceGit.ViewModels
         public string Message { get => _message; set => SetProperty(ref _message, value, true); }
         public List<Models.Commit> PreviewCommits { get => _previewCommits; set => SetProperty(ref _previewCommits, value); }
         public string DiffStat { get => _diffStat; set => SetProperty(ref _diffStat, value); }
-        public string FullDiff { get => _fullDiff; set => SetProperty(ref _fullDiff, value); }
 
         public ForceSquashAcrossMerges(Repository repo, Models.Commit target)
         {
@@ -145,8 +144,6 @@ namespace SourceGit.ViewModels
         private string _message;
         private List<Models.Commit> _previewCommits = new();
         private string _diffStat = string.Empty;
-        private string _fullDiff = string.Empty;
-        private bool _fullDiffLoaded = false;
 
         private async Task LoadPreview()
         {
@@ -156,14 +153,5 @@ namespace SourceGit.ViewModels
             DiffStat = await new Commands.DiffStat(_repo.FullPath, $"{baseSHA}..{head}").GetResultAsync();
         }
 
-        public async Task LoadFullDiff()
-        {
-            if (_fullDiffLoaded)
-                return;
-            var head = await new Commands.QueryRevisionByRefName(_repo.FullPath, "HEAD").GetResultAsync();
-            var baseSHA = Target.Parents[0];
-            FullDiff = await new Commands.DiffAll(_repo.FullPath, $"{baseSHA}..{head}").GetResultAsync();
-            _fullDiffLoaded = true;
-        }
     }
 }

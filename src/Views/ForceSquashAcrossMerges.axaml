@@ -37,9 +37,6 @@
       </ListBox.ItemTemplate>
     </ListBox>
     <TextBlock Margin="0,6,0,0" Text="{Binding DiffStat}" FontFamily="{DynamicResource Fonts.Monospace}"/>
-    <Expander Margin="0,6,0,0" Header="{DynamicResource Text.ForceSquash.ShowFullDiff}" Expanded="OnShowFullDiff">
-      <TextBox Text="{Binding FullDiff}" FontFamily="{DynamicResource Fonts.Monospace}" IsReadOnly="True" AcceptsReturn="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" MinHeight="120"/>
-    </Expander>
     <v:CommitMessageTextBox Height="120" Margin="0,18,0,0" Text="{Binding Message, Mode=TwoWay}"/>
   </StackPanel>
 </UserControl>
