@@ -621,7 +621,6 @@
   <x:String x:Key="Text.ForceSquash.KeepAuthorDate" xml:space="preserve">対象コミットの元の作者/日付を保持</x:String>
   <x:String x:Key="Text.ForceSquash.AppendMessages" xml:space="preserve">スクワッシュされたコミットのメッセージを本文に追加</x:String>
   <x:String x:Key="Text.ForceSquash.StashPopFailed" xml:space="preserve">自動スタッシュの適用に失敗しました。</x:String>
-  <x:String x:Key="Text.ForceSquash.ShowFullDiff" xml:space="preserve">完全な差分を表示</x:String>
   <x:String x:Key="Text.ForceSquash.Success" xml:space="preserve">履歴を平坦化しました。バックアップブランチ: {0}</x:String>
   <x:String x:Key="Text.ForceSquash.SuccessNoBackup" xml:space="preserve">履歴を平坦化しました。</x:String>
   <x:String x:Key="Text.SSHKey" xml:space="preserve">SSH プライベートキー:</x:String>

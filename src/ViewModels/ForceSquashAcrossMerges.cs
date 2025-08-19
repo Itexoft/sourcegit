@@ -146,7 +146,6 @@ namespace SourceGit.ViewModels
         private List<Models.Commit> _previewCommits = new();
         private string _diffStat = string.Empty;
         private string _fullDiff = string.Empty;
-        private bool _fullDiffLoaded = false;
 
         private async Task LoadPreview()
         {
@@ -154,16 +153,8 @@ namespace SourceGit.ViewModels
             var baseSHA = Target.Parents[0];
             PreviewCommits = await new Commands.QueryCommits(_repo.FullPath, $"{Target.SHA}..{head}", false).GetResultAsync();
             DiffStat = await new Commands.DiffStat(_repo.FullPath, $"{baseSHA}..{head}").GetResultAsync();
+            FullDiff = await new Commands.DiffAll(_repo.FullPath, $"{baseSHA}..{head}").GetResultAsync();
         }
 
-        public async Task LoadFullDiff()
-        {
-            if (_fullDiffLoaded)
-                return;
-            var head = await new Commands.QueryRevisionByRefName(_repo.FullPath, "HEAD").GetResultAsync();
-            var baseSHA = Target.Parents[0];
-            FullDiff = await new Commands.DiffAll(_repo.FullPath, $"{baseSHA}..{head}").GetResultAsync();
-            _fullDiffLoaded = true;
-        }
     }
 }
