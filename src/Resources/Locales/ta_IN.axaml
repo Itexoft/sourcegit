@@ -622,7 +622,6 @@
   <x:String x:Key="Text.ForceSquash.KeepAuthorDate" xml:space="preserve">இலக்கு commit-ன் அசல் author/தேதியை வைத்திரு</x:String>
   <x:String x:Key="Text.ForceSquash.AppendMessages" xml:space="preserve">நொறுக்கப்பட்ட commit-களின் செய்திகளை body-க்கு சேர்க்கவும்</x:String>
   <x:String x:Key="Text.ForceSquash.StashPopFailed" xml:space="preserve">Auto stash-ஐ பயன்படுத்த முடியவில்லை.</x:String>
-  <x:String x:Key="Text.ForceSquash.ShowFullDiff" xml:space="preserve">முழு diff-ஐ காட்டு</x:String>
   <x:String x:Key="Text.ForceSquash.Success" xml:space="preserve">வரலாறு சமப்படுத்தப்பட்டது. காப்பு branch: {0}</x:String>
   <x:String x:Key="Text.ForceSquash.SuccessNoBackup" xml:space="preserve">வரலாறு சமப்படுத்தப்பட்டது.</x:String>
   <x:String x:Key="Text.SSHKey" xml:space="preserve">பாஓடு தனியார் திறவுகோல்:</x:String>
