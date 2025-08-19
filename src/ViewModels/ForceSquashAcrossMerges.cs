@@ -14,7 +14,6 @@ namespace SourceGit.ViewModels
         public string Message { get => _message; set => SetProperty(ref _message, value, true); }
         public List<Models.Commit> PreviewCommits { get => _previewCommits; set => SetProperty(ref _previewCommits, value); }
         public string DiffStat { get => _diffStat; set => SetProperty(ref _diffStat, value); }
-        public string FullDiff { get => _fullDiff; set => SetProperty(ref _fullDiff, value); }
 
         public ForceSquashAcrossMerges(Repository repo, Models.Commit target)
         {
