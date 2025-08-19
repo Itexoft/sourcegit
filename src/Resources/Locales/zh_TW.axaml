@@ -762,7 +762,6 @@
   <x:String x:Key="Text.ForceSquash.KeepAuthorDate" xml:space="preserve">保留目標提交的原作者/日期</x:String>
   <x:String x:Key="Text.ForceSquash.AppendMessages" xml:space="preserve">將被壓縮的提交訊息附加到正文</x:String>
   <x:String x:Key="Text.ForceSquash.StashPopFailed" xml:space="preserve">套用自動暫存失敗。</x:String>
-  <x:String x:Key="Text.ForceSquash.ShowFullDiff" xml:space="preserve">顯示完整 diff</x:String>
   <x:String x:Key="Text.ForceSquash.Success" xml:space="preserve">歷史已扁平化。備份分支：{0}</x:String>
   <x:String x:Key="Text.ForceSquash.SuccessNoBackup" xml:space="preserve">歷史已扁平化。</x:String>
   <x:String x:Key="Text.SSHKey" xml:space="preserve">SSH 金鑰:</x:String>

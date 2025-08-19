@@ -763,7 +763,6 @@
   <x:String x:Key="Text.ForceSquash.KeepAuthorDate" xml:space="preserve">Originalautor und -datum des Ziel-Commits beibehalten</x:String>
   <x:String x:Key="Text.ForceSquash.AppendMessages" xml:space="preserve">Nachrichten der gesquashten Commits an den Body anhängen</x:String>
   <x:String x:Key="Text.ForceSquash.StashPopFailed" xml:space="preserve">Automatischen Stash anwenden fehlgeschlagen.</x:String>
-  <x:String x:Key="Text.ForceSquash.ShowFullDiff" xml:space="preserve">Vollen Diff anzeigen</x:String>
   <x:String x:Key="Text.ForceSquash.Success" xml:space="preserve">Historie abgeflacht. Sicherungszweig: {0}</x:String>
   <x:String x:Key="Text.ForceSquash.SuccessNoBackup" xml:space="preserve">Historie abgeflacht.</x:String>
   <x:String x:Key="Text.SSHKey" xml:space="preserve">SSH privater Schlüssel:</x:String>
