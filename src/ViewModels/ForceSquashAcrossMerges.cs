@@ -12,16 +12,12 @@ namespace SourceGit.ViewModels
         public bool KeepAuthorDate { get; set; }
         public bool AppendMessages { get; set; }
         public string Message { get => _message; set => SetProperty(ref _message, value, true); }
-        public List<Models.Commit> PreviewCommits { get => _previewCommits; set => SetProperty(ref _previewCommits, value); }
-        public string DiffStat { get => _diffStat; set => SetProperty(ref _diffStat, value); }
-        public List<string> ChangedFiles { get => _changedFiles; set => SetProperty(ref _changedFiles, value); }
 
         public ForceSquashAcrossMerges(Repository repo, Models.Commit target)
         {
             _repo = repo;
             Target = target;
             _message = target.Subject;
-            Task.Run(LoadPreview);
         }
 
         public override async Task<bool> Sure()
@@ -143,38 +139,6 @@ namespace SourceGit.ViewModels
 
         private readonly Repository _repo;
         private string _message;
-        private List<Models.Commit> _previewCommits = new();
-        private string _diffStat = string.Empty;
-        private List<string> _changedFiles = new();
-
-        private async Task LoadPreview()
-        {
-            var head = await new Commands.QueryRevisionByRefName(_repo.FullPath, "HEAD").GetResultAsync();
-            var baseSHA = Target.Parents[0];
-            PreviewCommits = await new Commands.QueryCommits(_repo.FullPath, $"{Target.SHA}..{head}", false).GetResultAsync();
-            var stat = await new Commands.DiffStat(_repo.FullPath, $"{baseSHA}..{head}").GetResultAsync();
-            if (string.IsNullOrEmpty(stat))
-            {
-                DiffStat = string.Empty;
-                ChangedFiles = new List<string>();
-                return;
-            }
-            var lines = stat.Split('\n');
-            var files = new List<string>();
-            for (var i = 0; i < lines.Length; i++)
-            {
-                var line = lines[i];
-                if (i == lines.Length - 1)
-                    DiffStat = line;
-                else
-                {
-                    var idx = line.IndexOf('|');
-                    if (idx > 0)
-                        files.Add(line.Substring(0, idx).Trim());
-                }
-            }
-            ChangedFiles = files;
-        }
 
     }
 }

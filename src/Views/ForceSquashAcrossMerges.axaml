@@ -4,50 +4,28 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:SourceGit.ViewModels"
              xmlns:v="using:SourceGit.Views"
-             xmlns:m="using:SourceGit.Models"
-             xmlns:c="using:SourceGit.Converters"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SourceGit.Views.ForceSquashAcrossMerges"
              x:DataType="vm:ForceSquashAcrossMerges">
-  <Grid Margin="8,0" ColumnDefinitions="*,*" Height="400">
-    <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,12,0">
-      <StackPanel Orientation="Vertical">
-        <TextBlock FontSize="18"
-                   Classes="bold"
-                   Text="{DynamicResource Text.ForceSquash.Title}"/>
-        <StackPanel Margin="0,18,0,0">
-          <TextBlock Text="{DynamicResource Text.ForceSquash.Warn1}" Foreground="Red"/>
-          <TextBlock Margin="0,4,0,0" Text="{DynamicResource Text.ForceSquash.Warn2}"/>
-          <TextBlock Margin="0,4,0,0" Text="{DynamicResource Text.ForceSquash.Warn3}"/>
-          <TextBlock Margin="0,4,0,0" Text="{DynamicResource Text.ForceSquash.Warn4}"/>
-          <TextBlock Margin="0,4,0,0" Text="{DynamicResource Text.ForceSquash.Warn5}"/>
-        </StackPanel>
-        <StackPanel Margin="0,18,0,0">
-          <CheckBox Content="{DynamicResource Text.ForceSquash.CreateBackup}" IsChecked="{Binding CreateBackup, Mode=TwoWay}"/>
-          <CheckBox Content="{DynamicResource Text.ForceSquash.AutoStash}" IsChecked="{Binding AutoStash, Mode=TwoWay}"/>
-          <CheckBox Content="{DynamicResource Text.ForceSquash.KeepAuthorDate}" IsChecked="{Binding KeepAuthorDate, Mode=TwoWay}"/>
-          <CheckBox Content="{DynamicResource Text.ForceSquash.AppendMessages}" IsChecked="{Binding AppendMessages, Mode=TwoWay}"/>
-        </StackPanel>
-        <ListBox Height="120" Margin="0,18,0,0" ItemsSource="{Binding PreviewCommits}">
-          <ListBox.ItemTemplate>
-            <DataTemplate x:DataType="m:Commit">
-              <StackPanel Orientation="Horizontal">
-                <TextBlock Text="🔀" IsVisible="{Binding Parents.Count, Converter={x:Static c:IntConverters.IsNotOne}}"/>
-                <TextBlock Margin="4,0,0,0" Text="{Binding Subject}"/>
-              </StackPanel>
-            </DataTemplate>
-          </ListBox.ItemTemplate>
-        </ListBox>
-        <v:CommitMessageTextBox Height="120" Margin="0,18,0,0" Text="{Binding Message, Mode=TwoWay}"/>
+  <DockPanel Margin="8,0" Height="400">
+    <v:CommitMessageTextBox DockPanel.Dock="Bottom" Height="120" Margin="0,18,0,0" Text="{Binding Message, Mode=TwoWay}"/>
+    <StackPanel Orientation="Vertical">
+      <TextBlock FontSize="18"
+                 Classes="bold"
+                 Text="{DynamicResource Text.ForceSquash.Title}"/>
+      <StackPanel Margin="0,18,0,0">
+        <TextBlock Text="{DynamicResource Text.ForceSquash.Warn1}" Foreground="Red"/>
+        <TextBlock Margin="0,4,0,0" Text="{DynamicResource Text.ForceSquash.Warn2}"/>
+        <TextBlock Margin="0,4,0,0" Text="{DynamicResource Text.ForceSquash.Warn3}"/>
+        <TextBlock Margin="0,4,0,0" Text="{DynamicResource Text.ForceSquash.Warn4}"/>
+        <TextBlock Margin="0,4,0,0" Text="{DynamicResource Text.ForceSquash.Warn5}"/>
       </StackPanel>
-    </ScrollViewer>
-    <Grid Grid.Column="1">
-      <Grid.RowDefinitions>
-        <RowDefinition Height="*"/>
-        <RowDefinition Height="Auto"/>
-      </Grid.RowDefinitions>
-      <ListBox Grid.Row="0" ItemsSource="{Binding ChangedFiles}" FontFamily="{DynamicResource Fonts.Monospace}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,0,0,6"/>
-      <TextBlock Grid.Row="1" Text="{Binding DiffStat}" FontFamily="{DynamicResource Fonts.Monospace}"/>
-    </Grid>
-  </Grid>
+      <StackPanel Margin="0,18,0,0">
+        <CheckBox Content="{DynamicResource Text.ForceSquash.CreateBackup}" IsChecked="{Binding CreateBackup, Mode=TwoWay}"/>
+        <CheckBox Content="{DynamicResource Text.ForceSquash.AutoStash}" IsChecked="{Binding AutoStash, Mode=TwoWay}"/>
+        <CheckBox Content="{DynamicResource Text.ForceSquash.KeepAuthorDate}" IsChecked="{Binding KeepAuthorDate, Mode=TwoWay}"/>
+        <CheckBox Content="{DynamicResource Text.ForceSquash.AppendMessages}" IsChecked="{Binding AppendMessages, Mode=TwoWay}"/>
+      </StackPanel>
+    </StackPanel>
+  </DockPanel>
 </UserControl>
