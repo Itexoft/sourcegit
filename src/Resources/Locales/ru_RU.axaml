@@ -752,7 +752,6 @@
   <x:String x:Key="Text.ForceSquash.KeepAuthorDate" xml:space="preserve">Сохранить автора и дату целевого коммита</x:String>
   <x:String x:Key="Text.ForceSquash.AppendMessages" xml:space="preserve">Добавить сообщения объединяемых коммитов в тело</x:String>
   <x:String x:Key="Text.ForceSquash.StashPopFailed" xml:space="preserve">Не удалось применить авто-стэш.</x:String>
-  <x:String x:Key="Text.ForceSquash.ShowFullDiff" xml:space="preserve">Показать полный diff</x:String>
   <x:String x:Key="Text.ForceSquash.Success" xml:space="preserve">История сплюснута. Резервная ветка: {0}</x:String>
   <x:String x:Key="Text.ForceSquash.SuccessNoBackup" xml:space="preserve">История сплюснута.</x:String>
   <x:String x:Key="Text.SSHKey" xml:space="preserve">Приватный ключ SSH:</x:String>
