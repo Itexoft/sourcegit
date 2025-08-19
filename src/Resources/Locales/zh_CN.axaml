@@ -752,11 +752,11 @@
   <x:String x:Key="Text.Squash" xml:space="preserve">压缩为单个提交</x:String>
   <x:String x:Key="Text.Squash.Into" xml:space="preserve">合并入：</x:String>
   <x:String x:Key="Text.ForceSquash.Title" xml:space="preserve">跨合并压缩（扁平化历史）</x:String>
-  <x:String x:Key="Text.ForceSquash.Warn1" xml:space="preserve">操作会把从选定提交到 HEAD 的历史重写为一个提交</x:String>
-  <x:String x:Key="Text.ForceSquash.Warn2" xml:space="preserve">范围内的所有合并提交都会被移除</x:String>
-  <x:String x:Key="Text.ForceSquash.Warn3" xml:space="preserve">签名的提交或合并将丢失签名</x:String>
-  <x:String x:Key="Text.ForceSquash.Warn4" xml:space="preserve">之后需要强制推送</x:String>
-  <x:String x:Key="Text.ForceSquash.Warn5" xml:space="preserve">请关闭或更新相关的 MR/PR</x:String>
+  <x:String x:Key="Text.ForceSquash.Warn" xml:space="preserve">操作会把从选定提交到 HEAD 的历史重写为一个提交
+范围内的所有合并提交都会被移除
+签名的提交或合并将丢失签名
+之后需要强制推送
+请关闭或更新相关的 MR/PR</x:String>
   <x:String x:Key="Text.ForceSquash.CreateBackup" xml:space="preserve">重写前创建安全备份分支</x:String>
   <x:String x:Key="Text.ForceSquash.AutoStash" xml:space="preserve">自动保存本地更改</x:String>
   <x:String x:Key="Text.ForceSquash.KeepAuthorDate" xml:space="preserve">保留目标提交的原作者/日期</x:String>

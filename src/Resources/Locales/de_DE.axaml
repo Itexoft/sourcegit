@@ -753,11 +753,11 @@
   <x:String x:Key="Text.Squash" xml:space="preserve">Squash Commits</x:String>
   <x:String x:Key="Text.Squash.Into" xml:space="preserve">In:</x:String>
   <x:String x:Key="Text.ForceSquash.Title" xml:space="preserve">Squash über Merges (Historie glätten)</x:String>
-  <x:String x:Key="Text.ForceSquash.Warn1" xml:space="preserve">Operation überschreibt die Historie vom gewählten Commit bis HEAD zu einem Commit</x:String>
-  <x:String x:Key="Text.ForceSquash.Warn2" xml:space="preserve">Alle Merge-Commits im Bereich werden entfernt</x:String>
-  <x:String x:Key="Text.ForceSquash.Warn3" xml:space="preserve">Signierte Commits oder Merges verlieren Signaturen</x:String>
-  <x:String x:Key="Text.ForceSquash.Warn4" xml:space="preserve">Anschließend ist ein Force-Push erforderlich</x:String>
-  <x:String x:Key="Text.ForceSquash.Warn5" xml:space="preserve">Schließe oder aktualisiere alle zugehörigen MR/PR</x:String>
+  <x:String x:Key="Text.ForceSquash.Warn" xml:space="preserve">Operation überschreibt die Historie vom gewählten Commit bis HEAD zu einem Commit
+Alle Merge-Commits im Bereich werden entfernt
+Signierte Commits oder Merges verlieren Signaturen
+Anschließend ist ein Force-Push erforderlich
+Schließe oder aktualisiere alle zugehörigen MR/PR</x:String>
   <x:String x:Key="Text.ForceSquash.CreateBackup" xml:space="preserve">Vor dem Überschreiben Sicherungszweig erstellen</x:String>
   <x:String x:Key="Text.ForceSquash.AutoStash" xml:space="preserve">Lokale Änderungen automatisch stashen</x:String>
   <x:String x:Key="Text.ForceSquash.KeepAuthorDate" xml:space="preserve">Originalautor und -datum des Ziel-Commits beibehalten</x:String>
