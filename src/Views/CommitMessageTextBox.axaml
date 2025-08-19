@@ -49,7 +49,7 @@
                          AcceptsTab="True"
                          TextWrapping="Wrap"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                         ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
                          Text="{Binding #ThisControl.Description, Mode=TwoWay}"
                          Watermark="{DynamicResource Text.CommitMessageTextBox.MessagePlaceholder}"
                          PreviewKeyDown="OnDescriptionTextBoxPreviewKeyDown"
