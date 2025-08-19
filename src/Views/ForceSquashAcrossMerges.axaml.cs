@@ -1,6 +1,4 @@
 using Avalonia.Controls;
-using System;
-using Avalonia.Interactivity;
 
 namespace SourceGit.Views
 {
@@ -11,10 +9,5 @@ namespace SourceGit.Views
             InitializeComponent();
         }
 
-        private async void OnShowFullDiff(object sender, RoutedEventArgs e)
-        {
-            if (DataContext is ViewModels.ForceSquashAcrossMerges vm)
-                await vm.LoadFullDiff();
-        }
     }
 }
